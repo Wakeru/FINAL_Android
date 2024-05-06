@@ -43,11 +43,11 @@ public class MainActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.song_image_view);
 
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        searchButton.setOnClickListener(new View.OnClickListener() {//when you click button, run this method
             @Override
             public void onClick(View v) {
                 String searchTerm = inputText.getText().toString().trim();
-                if (!searchTerm.isEmpty()) {
+                if (!searchTerm.isEmpty()) {//if input text view NOT empty, then run the method
                     fetchSongDetails(searchTerm);
                 }
             }
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                         JSONObject track = hit.getJSONObject("track");//to get track information
                         String artistName = track.getString("subtitle"); //"subtitle" or Artsts name
                         String songName = track.getString("title");// song namne
-                        String coverImageUrl = track.getJSONObject("images").getString("coverart"); //from the images array, get only the cover Art
+                        String coverImageUrl = track.getJSONObject("images").getString("coverart"); //from the images array, get only the cover Art URL
 
                         // Display image using Picasso
                         ImageView songImageView = findViewById(R.id.song_image_view);
@@ -86,15 +86,17 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         songInfoTextView.setText("No song found");
                     }
+                    //in case it went bad
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    songInfoTextView.setText("Failed to get song details");
+                    songInfoTextView.setText("Failed to get song details, but api working tho");
                 }
             }
 
+            //in case all hell is let loose
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                songInfoTextView.setText("Failed to get Api");
+                songInfoTextView.setText("Failed to get Api, it's just not your day...");
             }
         });
     }
