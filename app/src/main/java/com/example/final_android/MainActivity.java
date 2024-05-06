@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView songInfoTextView;
     private TextInputEditText inputText;
+    //TEsting ImageURL
     String imageUrl = "https://is5-ssl.mzstatic.com/image/thumb/Features124/v4/4e/0d/1f/4e0d1ff5-9f2e-0170-0ec9-3dbe25f3a471/pr_source.png/800x800cc.jpg"; // Replace with your image URL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +56,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchSongDetails(String searchTerm) {
         AsyncHttpClient client = new AsyncHttpClient();
+        //KEY AND HOST
         client.addHeader("X-RapidAPI-Key", "a46065425fmsh6bc3eb4e8517312p17619ejsn537ee3169b0d");
         client.addHeader("X-RapidAPI-Host", "shazam.p.rapidapi.com");
 
+        //putting them toegther
         String url = "https://shazam.p.rapidapi.com/search?term=" + searchTerm + "&locale=en-US&offset=0&limit=1";
 
         client.get(url, new JsonHttpResponseHandler() {
@@ -66,31 +69,32 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONObject tracks = response.getJSONObject("tracks");
                     JSONArray hits = tracks.getJSONArray("hits");
-                    if (hits.length() > 0) { //if hits is more than 0 meaning there are actual songs
-                        JSONObject hit = hits.getJSONObject(0);
-                        JSONObject track = hit.getJSONObject("track");
-                        String artistName = track.getString("subtitle");
-                        String songName = track.getString("title");
-                        String coverImageUrl = track.getJSONObject("images").getString("coverart");
+                    if (hits.length() > 0) { //if "hits" or acutal songs are present then go on
+                        JSONObject hit = hits.getJSONObject(0);//these are to get information from the array
+                        JSONObject track = hit.getJSONObject("track");//to get track information
+                        String artistName = track.getString("subtitle"); //"subtitle" or Artsts name
+                        String songName = track.getString("title");// song namne
+                        String coverImageUrl = track.getJSONObject("images").getString("coverart"); //from the images array, get only the cover Art
 
-                        // Loading image using Picasso
+                        // Display image using Picasso
                         ImageView songImageView = findViewById(R.id.song_image_view);
                         Picasso.get().load(coverImageUrl).into(songImageView);
                         songImageView.setVisibility(View.VISIBLE);
 
+                        //Display Song name
                         songInfoTextView.setText("Artist: " + artistName + "\nSong: " + songName);
                     } else {
                         songInfoTextView.setText("No song found");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    songInfoTextView.setText("Failed to fetch song details");
+                    songInfoTextView.setText("Failed to get song details");
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                songInfoTextView.setText("Failed to fetch song details");
+                songInfoTextView.setText("Failed to get Api");
             }
         });
     }
