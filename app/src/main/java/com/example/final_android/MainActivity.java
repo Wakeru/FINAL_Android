@@ -27,34 +27,41 @@ import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView jokeTextView;
+    private TextView movieInfoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        jokeTextView = findViewById(R.id.joke_text_view);
-        Button generateJokeButton = findViewById(R.id.generate_joke_button);
+        movieInfoTextView = findViewById(R.id.movie_info_text_view);
 
-        generateJokeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fetchChuckNorrisJoke();
-            }
-        });
+        // Example search term
+        String searchTerm = "Nemo";
 
-        fetchChuckNorrisJoke(); // Fetch a joke when the activity starts
+        // Make the network request
+        fetchMovieInfo(searchTerm);
     }
 
-    private void fetchChuckNorrisJoke() {
+    private void fetchMovieInfo(String searchTerm) {
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get("https://api.chucknorris.io/jokes/random", new JsonHttpResponseHandler() {
-            @Override
+        client.addHeader("X-RapidAPI-Key", "a46065425fmsh6bc3eb4e8517312p17619ejsn537ee3169b0d");
+        client.addHeader("X-RapidAPI-Host", "movie-database-alternative.p.rapidapi.com");
+
+        String url = "https://movie-database-alternative.p.rapidapi.com/?s=" + searchTerm +"&page=1";
+
+        client.get(url, new JsonHttpResponseHandler() {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    String joke = response.getString("value");
-                    jokeTextView.setText(joke);
+                    JSONArray results = response.getJSONArray("Search");
+                    if (results.length() > 0) {
+                        JSONObject movie = results.getJSONObject(0);
+                        String title = movie.getString("Title");
+                        String year = movie.getString("Year");
+                        movieInfoTextView.setText("Title: " + title + "\nYear: " + year);
+                    } else {
+                        movieInfoTextView.setText("No movie found");
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -62,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                jokeTextView.setText("Failed to fetch Chuck Norris joke");
+                // Handle failure
+                movieInfoTextView.setText("Failed to fetch movie information");
             }
         });
     }
