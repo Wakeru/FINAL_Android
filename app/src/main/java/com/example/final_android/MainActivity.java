@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 // Handle failure
-                movieInfoTextView.setText("Failed to fetch movie information");
+                movieInfoTextView.setText("Failed to fetch moie information");
             }
         });
     }
