@@ -33,6 +33,7 @@ android {
 
 dependencies {
     implementation("com.loopj.android:android-async-http:1.4.9")
+    implementation ("com.squareup.picasso:picasso:2.71828")
 
 
     implementation(libs.appcompat)

@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView songInfoTextView;
     private TextInputEditText inputText;
-    String imageUrl = "https://is5-ssl.mzstatic.com/image/thumb/Features124/v4/4e/0d/1f/4e0d1ff5-9f2e-0170-0ec9-3dbe25f3a471/pr_source.png/800x800cc.jpg"; // Replace with your image URL
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
         songInfoTextView = findViewById(R.id.song_info_text_view);
         inputText = findViewById(R.id.input_text);
         Button searchButton = findViewById(R.id.search_button);
-        ImageView imageView = findViewById(R.id.song_image_view);
-
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,18 +64,11 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONObject tracks = response.getJSONObject("tracks");
                     JSONArray hits = tracks.getJSONArray("hits");
-                    if (hits.length() > 0) { //if hits is more than 0 meaning there are actual songs
+                    if (hits.length() > 0) {
                         JSONObject hit = hits.getJSONObject(0);
                         JSONObject track = hit.getJSONObject("track");
                         String artistName = track.getString("subtitle");
                         String songName = track.getString("title");
-                        String coverImageUrl = track.getJSONObject("images").getString("coverart");
-
-                        // Loading image using Picasso
-                        ImageView songImageView = findViewById(R.id.song_image_view);
-                        Picasso.get().load(coverImageUrl).into(songImageView);
-                        songImageView.setVisibility(View.VISIBLE);
-
                         songInfoTextView.setText("Artist: " + artistName + "\nSong: " + songName);
                     } else {
                         songInfoTextView.setText("No song found");
