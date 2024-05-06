@@ -7,6 +7,46 @@
     android:background="@drawable/background_gray"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="?attr/colorPrimary"
+        android:backgroundTint="@color/black"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!--Logo of the App-->
+        <ImageView
+            android:id="@+id/mmlogo"
+            android:layout_width="80dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="85dp"
+            android:padding="8dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/new_logo2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Title of the App -->
+        <TextView
+            android:id="@+id/app_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="MixMaker v1.5"
+            android:textColor="@android:color/white"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/mmlogo"
+            app:layout_constraintTop_toTopOf="@+id/mmlogo" />
+    </androidx.appcompat.widget.Toolbar>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_layout"
         android:layout_width="match_parent"
@@ -23,10 +63,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/input_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="168dp"
+        android:backgroundTint="@color/Silver"
         android:text="Search"
-        app:layout_constraintTop_toBottomOf="@+id/song_image_view"
-        tools:layout_editor_absoluteX="159dp" />
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/song_image_view" />
 
     <TextView
         android:id="@+id/song_info_text_view"
@@ -38,8 +82,9 @@
         android:background="@color/Silver"
         android:padding="7dp"
         android:textSize="18sp"
-        app:layout_constraintTop_toBottomOf="@+id/input_text"
-        tools:layout_editor_absoluteX="198dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_text" />
 
     <ImageView
         android:id="@+id/song_image_view"
@@ -48,15 +93,18 @@
         android:layout_below="@id/song_info_text_view"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
-        app:layout_constraintTop_toBottomOf="@+id/song_info_text_view"
-        tools:layout_editor_absoluteX="205dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/song_info_text_view" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/input_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
+        android:layout_marginTop="46dp"
         android:background="@color/Silver"
         android:hint="Enter song or artist name"
-        tools:layout_editor_absoluteX="21dp"
-        tools:layout_editor_absoluteY="110dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
